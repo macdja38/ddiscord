@@ -3,7 +3,10 @@ const solace = require('solclientjs').debug;
 
 const { createMessage } = require('..');
 
-const SessionEvent = solace.SessionEventCode;
+const {
+  SessionEventCode: SessionEvent,
+  MessageDeliveryModeType,
+} = solace;
 
 module.exports = class SolaceConnection extends EventEmitter {
   constructor() {
@@ -26,18 +29,21 @@ module.exports = class SolaceConnection extends EventEmitter {
     this.session = solace.SolclientFactory.createSession(options);
 
     this.session.on(SessionEvent.UP_NOTICE, () => this.startConsume());
-    this.session.on(SessionEvent.CONNECT_FAILED_ERROR, e => { throw e });
+    this.session.on(SessionEvent.CONNECT_FAILED_ERROR, (e) => {
+      this.emit('error', e);
+    });
     this.session.on(SessionEvent.DISCONNECTED, () => {
       this.consuming = false;
       console.log('Disconnected');
     });
-    this.session.on(SessionEvent.SUBSCRIPTION_ERROR, e => { throw e });
+    this.session.on(SessionEvent.SUBSCRIPTION_ERROR, (e) => {
+      this.emit('error', e);
+    });
     this.session.on(SessionEvent.SUBSCRIPTION_OK, () => {
       if (this.subscribed) {
         this.subscribed = false;
         console.log('Unsubscribed');
-      }
-      else {
+      } else {
         this.subscribed = true;
         console.log('Subscribed');
       }

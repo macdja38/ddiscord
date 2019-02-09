@@ -1,13 +1,11 @@
-const EventEmitter = require('events');
 const solace = require('solclientjs').debug;
 
 const SolaceConnection = require('./SolaceConnection');
 
-const SolclientFactory = solace.SolclientFactory;
-const SessionEvent = solace.SessionEventCode;
-const AckMode = solace.MessageConsumerAcknowledgeMode;
-const QueueType = solace.QueueType;
-
+const {
+  SolclientFactory,
+  SessionEventCode: SessionEvent,
+} = solace;
 module.exports = class QueueConsumer extends SolaceConnection {
   constructor() {
     super();

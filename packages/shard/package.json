@@ -1,0 +1,34 @@
+{
+  "name": "shard",
+  "version": "0.0.0",
+  "description": "Connects to discord, gathers events, inserts them into Solace",
+  "keywords": [
+    "discord",
+    "solace",
+    "events"
+  ],
+  "author": "macdja38 <jakeincanada@icloud.com>",
+  "homepage": "https://github.com/macdja38/ddiscord",
+  "license": "UNLICENCED",
+  "main": "lib/shard.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/macdja38/ddiscord.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://github.com/macdja38/ddiscord/issues"
+  },
+  "dependencies": {
+    "eris": "^0.9.0"
+  }
+}

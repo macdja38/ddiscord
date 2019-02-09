@@ -1,0 +1,20 @@
+0 silly argv { _: [ 'create' ],
+0 silly argv   lernaVersion: '3.11.0',
+0 silly argv   '$0': 'node_modules/.bin/lerna',
+0 silly argv   name: 'shard' }
+1 notice cli v3.11.0
+2 verbose rootPath /Users/macdja38/WebstormProjects/ddiscord
+3 warn ENOREMOTE No git remote found, skipping repository property
+4 error Error: canceled
+4 error     at Interface.<anonymous> (/Users/macdja38/WebstormProjects/ddiscord/node_modules/read/lib/read.js:66:13)
+4 error     at Interface.emit (events.js:197:13)
+4 error     at Interface._ttyWrite (readline.js:799:16)
+4 error     at ReadStream.onkeypress (readline.js:184:10)
+4 error     at ReadStream.emit (events.js:197:13)
+4 error     at emitKeys (internal/readline.js:424:14)
+4 error     at emitKeys.next (<anonymous>)
+4 error     at ReadStream.onData (readline.js:1071:36)
+4 error     at ReadStream.emit (events.js:197:13)
+4 error     at addChunk (_stream_readable.js:288:12)
+4 error     at readableAddChunk (_stream_readable.js:269:11)
+4 error     at ReadStream.Readable.push (_stream_readable.js:224:10)

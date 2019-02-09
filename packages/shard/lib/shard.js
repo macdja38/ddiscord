@@ -12,7 +12,7 @@ function shard(token, firstShardID, lastShardID, maxShards) {
   });
 
   bot.on('rawWS', (packet, shardId) => {
-    console.log(shardId, packet);
+    console.log(shardId, JSON.stringify(packet, null, 2));
     // send to solice here
   });
 

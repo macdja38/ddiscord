@@ -65,6 +65,18 @@ module.exports = class SolaceConnection extends EventEmitter {
     this.session.sendReply(message, createMessage(content));
   }
 
+  send(destination, content, deliveryMode = MessageDeliveryModeType.DIRECT) {
+    if (this.session === null) {
+      throw new Error('Session not started');
+    }
+
+    const message = createMessage(content);
+    message.setDestination(destination);
+    message.setDeliveryMode(deliveryMode);
+
+    this.session.send(message);
+  }
+
   disconnect() {
     if (this.session === null) {
       throw new Error('Not connected');

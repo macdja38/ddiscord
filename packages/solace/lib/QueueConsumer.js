@@ -64,4 +64,11 @@ module.exports = class QueueConsumer extends SolaceConnection {
     consumer.connect();
     this.consumers.add(queueName, consumerObj);
   }
+
+  send(queueName, content) {
+    super.send(
+      SolclientFactory.createDurableQueueDestination(queueName),
+      content,
+    );
+  }
 };

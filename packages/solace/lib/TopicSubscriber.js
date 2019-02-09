@@ -59,4 +59,11 @@ module.exports = class QueueConsumer extends SolaceConnection {
     );
     this.subscriptions.delete(topic);
   }
+
+  send(topic, content) {
+    super.send(
+      SolclientFactory.createTopicDestination(topic),
+      content,
+    );
+  }
 };

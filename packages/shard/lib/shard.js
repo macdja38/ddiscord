@@ -1,9 +1,10 @@
 const Eris = require('eris');
 
-function shard(token, firstShardID, lastShardID) {
+function shard(token, firstShardID, lastShardID, maxShards) {
   const bot = new Eris(token, {
     firstShardID,
     lastShardID,
+    maxShards,
   });
 
   bot.on('ready', () => { // When the bot is ready

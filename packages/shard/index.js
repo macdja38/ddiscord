@@ -1,15 +1,17 @@
 const shard = require('./lib/shard');
 
-const { token } = process.env;
-const startShard = parseInt(process.env.startShard, 10);
-const endShard = parseInt(process.env.endShard, 10);
+const { TOKEN } = process.env;
+const START_SHARD = parseInt(process.env.START_SHARD, 10);
+const END_SHARD = parseInt(process.env.END_SHARD, 10);
 
-if (typeof token !== 'string' || token.length < 1) {
+if (typeof TOKEN !== 'string' || TOKEN.length < 1) {
   throw new Error('Please supply a discord token to login with');
 }
 
-if (Number.isNaN(startShard) || Number.isNaN(endShard)) {
-  throw new Error(`Please supply a valid stand and end shard, we got ${startShard} and ${endShard}`);
+if (Number.isNaN(START_SHARD) || Number.isNaN(END_SHARD)) {
+  throw new Error(
+    `Please supply a valid START_SHARD and END_SHARD, we got ${START_SHARD} and ${END_SHARD}`
+  );
 }
 
-shard(token, startShard, endShard);
+shard(TOKEN, START_SHARD, END_SHARD);

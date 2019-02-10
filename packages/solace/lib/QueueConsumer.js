@@ -66,6 +66,7 @@ module.exports = class QueueConsumer extends SolaceConnection {
         content.queueName = queueName;
         content.message = m;
         this.emit(content.t, content);
+        this.emit('*', content);
         m.acknowledge();
       });
 

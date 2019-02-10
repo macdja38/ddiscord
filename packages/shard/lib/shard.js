@@ -3,13 +3,20 @@ const { init, QueueConsumer } = require('solace');
 
 init();
 
-async function shard(token, firstShardID, lastShardID, maxShards) {
+async function shard(
+  {
+    token, firstShardID, lastShardID, maxShards,
+  },
+  {
+    url, vpnName, userName, password,
+  },
+) {
   const queueConsumer = new QueueConsumer();
   await queueConsumer.connect({
-    url: process.env.SOULLESS_URL,
-    vpnName: process.env.SOULLESS_VPN_NAME,
-    userName: process.env.SOULLESS_USERNAME,
-    password: process.env.SOULLESS_PASSWORD,
+    url,
+    vpnName,
+    userName,
+    password,
   });
 
   const bot = new Eris(token, {

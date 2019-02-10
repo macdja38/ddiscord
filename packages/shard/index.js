@@ -1,13 +1,30 @@
 const shard = require('./lib/shard');
 
-const { TOKEN } = process.env;
+const {
+  TOKEN,
+  SOULLESS_URL,
+  SOULLESS_VPN_NAME,
+  SOULLESS_USERNAME,
+  SOULLESS_PASSWORD,
+} = process.env;
+
 const START_SHARD = parseInt(process.env.START_SHARD, 10);
 const END_SHARD = parseInt(process.env.END_SHARD, 10);
 const MAX_SHARDS = parseInt(process.env.MAX_SHARDS, 10);
 
-if (typeof TOKEN !== 'string' || TOKEN.length < 1) {
-  throw new Error('Please supply a discord token to login with');
-}
+const requiredExistences = {
+  TOKEN,
+  SOULLESS_URL,
+  SOULLESS_VPN_NAME,
+  SOULLESS_USERNAME,
+  SOULLESS_PASSWORD,
+};
+
+Object.entries(requiredExistences).forEach(([key, value]) => {
+  if (typeof value !== 'string' || value < 1) {
+    throw new Error(`Please supply ${key}, current value is ${value}`);
+  }
+});
 
 if (Number.isNaN(START_SHARD) || Number.isNaN(END_SHARD)) {
   throw new Error(
@@ -22,7 +39,17 @@ if (Number.isNaN(MAX_SHARDS)) {
   );
 }
 
-shard(TOKEN, START_SHARD, END_SHARD, MAX_SHARDS)
+shard({
+  token: TOKEN,
+  startShardID: START_SHARD,
+  endShardID: END_SHARD,
+  maxShards: MAX_SHARDS,
+}, {
+  url: SOULLESS_URL,
+  vpnName: SOULLESS_VPN_NAME,
+  userName: SOULLESS_USERNAME,
+  password: SOULLESS_PASSWORD,
+})
   .catch((e) => {
     console.error(e);
     process.exit(1);

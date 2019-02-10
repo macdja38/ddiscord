@@ -45,11 +45,15 @@ function startHeartbeat(id, interval) {
   setInterval(() => {
     const options = { method: 'PATCH' };
 
+    console.log('heartbeating');
+
     fetch(`http://10.0.22.102:3000/id/${id}/heartbeat`, options)
       .then(async (response) => {
         if (response.ok !== true) {
+          console.log('heartbeat failure', response.statusText);;
           throw new Error(response.statusText);
         }
+        console.log('heartbeat success');
         retries = 0;
         return response.json();
       })

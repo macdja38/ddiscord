@@ -27,6 +27,27 @@ async function eventBot({ token, topicName, ...options }) {
           await client.channel.createMessage(channelId, code(`(${shardId}) Average events per second: ${average}`));
           break;
         }
+        case 'ping': {
+          const time = Date.now();
+          // createMessage
+          // take ID of message
+          // wait for message from gateway
+          // subtract times
+          const { id } = await client.channel.createMessage(channelId, 'Testing ping...');
+          await new Promise((resolve) => {
+            function handler({ id: receivedId }) {
+              if (id !== receivedId) {
+                return;
+              }
+              client.removeListener('MESSAGE_CREATE', handler);
+              resolve();
+            }
+
+            client.on('MESSAGE_CREATE', handler);
+          });
+          await client.channel.editMessage(channelId, id, `Ping is ${Date.now() - time}ms`);
+          break;
+        }
         default:
           console.log('did not match any command');
           break;

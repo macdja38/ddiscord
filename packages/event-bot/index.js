@@ -1,10 +1,40 @@
-const Client = require('discord-client');
+const eventBot = require('./lib/event-bot');
 
-const client = new Client(process.env.TOKEN);
+const {
+  TOKEN,
+  SOULLESS_URL,
+  SOULLESS_VPN_NAME,
+  SOULLESS_USERNAME,
+  SOULLESS_PASSWORD,
+  SOULLESS_QUEUE_NAME,
+} = process.env;
 
-client.on('*', (m) => {
-  client.channel.createMessage(
-    '233647266957623297',
-    `\`\`\`\n${JSON.stringify(m).slice(0, 1500)}\`\`\``,
-  );
+const requiredExistences = {
+  TOKEN,
+  SOULLESS_URL,
+  SOULLESS_VPN_NAME,
+  SOULLESS_USERNAME,
+  SOULLESS_PASSWORD,
+  SOULLESS_QUEUE_NAME,
+};
+
+Object.entries(requiredExistences).forEach(([key, value]) => {
+  if (typeof value !== 'string' || value < 1) {
+    throw new Error(`Please supply ${key}, current value is ${value}`);
+  }
 });
+
+console.log('Environment validation passed');
+
+eventBot({
+  token: TOKEN,
+  url: SOULLESS_URL,
+  vpnName: SOULLESS_VPN_NAME,
+  userName: SOULLESS_USERNAME,
+  password: SOULLESS_PASSWORD,
+  queueName: SOULLESS_QUEUE_NAME,
+})
+  .catch((e) => {
+    console.error(e);
+    process.exit(1);
+  });

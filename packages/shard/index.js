@@ -70,7 +70,7 @@ function startHeartbeat(id, interval) {
 
 getShardInstructions()
   .then((shardInstructions) => {
-    startHeartbeat(shardInstructions.firstShardID, shardInstructions.heartbeat);
+    startHeartbeat(shardInstructions.shardID, shardInstructions.heartbeat);
 
     return shard({
       token: TOKEN,

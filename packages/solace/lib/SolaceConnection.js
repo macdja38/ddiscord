@@ -56,11 +56,6 @@ module.exports = class SolaceConnection extends EventEmitter {
         }
       });
 
-      this.session.on(SessionEvent.MESSAGE, (message) => {
-        const content = JSON.parse(message.getSdtContainer().getValue());
-        this.emit(content.t, content);
-      });
-
       this.session.connect();
     });
   }

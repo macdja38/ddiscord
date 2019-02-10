@@ -25,11 +25,11 @@ async function worker(redisHost, redisPort, {
     delete object.message;
     console.log(object);
     const message = createMessage(JSON.stringify(object));
-    message.setTimeToLive(60 * 1000);
+    // message.setTimeToLive(60 * 1000);
     message.setDestination(
       QueueConsumer.solace.SolclientFactory.createTopicDestination(topicNameApplication),
     );
-    message.setDeliveryMode(QueueConsumer.solace.MessageDeliveryModeType.PERSISTENT);
+    message.setDeliveryMode(QueueConsumer.solace.MessageDeliveryModeType.DIRECT);
     queueConsumer.session.send(message);
   });
 

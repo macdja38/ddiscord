@@ -1,7 +1,7 @@
 const EventEmitter = require('events');
 const solace = require('solclientjs').debug;
 
-const { createMessage } = require('..');
+const { createMessage } = require('./helpers');
 
 const {
   SessionEventCode: SessionEvent,

@@ -22,5 +22,8 @@
   },
   "bugs": {
     "url": "https://github.com/macdja38/ddiscord/issues"
+  },
+  "dependencies": {
+    "solclientjs": "^10.2.0"
   }
 }

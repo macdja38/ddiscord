@@ -6,6 +6,7 @@ const {
   SolclientFactory,
   SessionEventCode: SessionEvent,
 } = solace;
+
 module.exports = class QueueConsumer extends SolaceConnection {
   constructor() {
     super();

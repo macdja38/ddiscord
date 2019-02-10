@@ -7,7 +7,7 @@ const {
   MessageConsumerEventName: ConsumerEvent,
   QueueType,
   SolclientFactory,
-} = solace.MessageDeliveryModeType;
+} = solace;
 
 module.exports = class QueueConsumer extends SolaceConnection {
   constructor() {

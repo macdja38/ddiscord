@@ -35,7 +35,7 @@ async function eventBot({ token, topicName, ...options }) {
           // subtract times
           const { id } = await client.channel.createMessage(channelId, 'Testing ping...');
           await new Promise((resolve) => {
-            function handler({ id: receivedId }) {
+            function handler({ d: { id: receivedId } }) {
               if (id !== receivedId) {
                 return;
               }

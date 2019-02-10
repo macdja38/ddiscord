@@ -27,7 +27,7 @@ async function worker(redisHost, redisPort, {
     const message = createMessage(JSON.stringify(object));
     message.setTimeToLive(60 * 1000);
     message.setDestination(
-      QueueConsumer.solace.SolclientFactory.createTopicDestination(topicNameApplication)
+      QueueConsumer.solace.SolclientFactory.createTopicDestination(topicNameApplication),
     );
     message.setDeliveryMode(QueueConsumer.solace.MessageDeliveryModeType.PERSISTENT);
     queueConsumer.session.send(message);

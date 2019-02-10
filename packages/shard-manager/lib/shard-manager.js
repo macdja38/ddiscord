@@ -22,12 +22,26 @@ function getRefreshedShard(shard) {
   return Object.assign({}, shard, {
     state: STATES.ACTIVE,
     updated: Date.now(),
-  });;
+  });
 }
+
+function getDeadShards(shards) {
+  return shards.filter(s => s.state === STATES.DEAD);
+}
+
+function getLiveShards(shards) {
+  return shards.filter(s => s.state === STATES.ACTIVE);
+}
+
 
 function getUpdatedShards(shards) {
   const now = Date.now();
-  return shards.map(getUpdatedShardState.bind(null, now));
+  const newShards = shards.map(getUpdatedShardState.bind(null, now));
+  const deadShards = getDeadShards(shards);
+  const liveShards = getLiveShards(shards);
+  console.log(`${deadShards.length}/${liveShards.length}/${newShards.length} - status`);
+  console.log('dead shards', deadShards);
+  return newShards;
 }
 
 function shardManager(startID, endID, shardTotal) {

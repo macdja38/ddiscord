@@ -23,7 +23,7 @@ async function worker(redisHost, redisPort, {
     const message = createMessage(JSON.stringify(object));
     message.setGMExpiration(Date.now() + 60 * 1000);
     message.setDestination(QueueConsumer.getDestination(queueNameApplication));
-    message.setDeliveryMode(QueueConsumer.solace.MessageDeliveryModeType.DIRECT);
+    message.setDeliveryMode(QueueConsumer.solace.MessageDeliveryModeType.PERSISTENT);
     queueConsumer.session.send(message);
   });
 

@@ -1,0 +1,21 @@
+FROM node:11
+
+USER node
+RUN mkdir -p /home/node/packages/shard-manager
+WORKDIR /home/node/packages/shard-manager
+ADD packages/shard-manager/package-lock.json /home/node/packages/shard-manager
+ADD packages/shard-manager/package.json /home/node/packages/shard-manager
+
+ADD packages/ /home/node/packages/
+ADD lerna.json /home/node/
+ADD package.json /home/node/
+ADD package-lock.json /home/node/
+USER root
+RUN chown -R node:node /home/node/
+USER node
+
+RUN npx lerna bootstrap
+
+USER root
+
+CMD ["node", "./index.js"]

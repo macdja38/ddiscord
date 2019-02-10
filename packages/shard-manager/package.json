@@ -1,0 +1,36 @@
+{
+  "name": "shard-manager",
+  "version": "0.0.0",
+  "description": "Shards connect to this and it assigns them IDs, also in charge of resharding as bot grows.",
+  "keywords": [
+    "discord",
+    "shard",
+    "manager",
+    "id"
+  ],
+  "author": "macdja38 <jakeincanada@icloud.com>",
+  "homepage": "https://github.com/macdja38/ddiscord#readme",
+  "license": "UNLICENCED",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/macdja38/ddiscord.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://github.com/macdja38/ddiscord/issues"
+  },
+  "dependencies": {
+    "express": "^4.16.4",
+    "socket.io": "^2.2.0"
+  }
+}

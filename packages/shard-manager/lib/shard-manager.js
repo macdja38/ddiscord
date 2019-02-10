@@ -56,7 +56,7 @@ function shardManager(startID, endID, shardTotal) {
     return id - startID;
   }
 
-  setTimeout(() => {
+  setInterval(() => {
     shards = getUpdatedShards(shards);
   }, 10000);
 

@@ -9,6 +9,10 @@ const {
 } = solace;
 
 module.exports = class SolaceConnection extends EventEmitter {
+  static get solace() {
+    return solace;
+  }
+
   constructor() {
     super();
     this.session = null;

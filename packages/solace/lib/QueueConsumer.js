@@ -78,8 +78,12 @@ module.exports = class QueueConsumer extends SolaceConnection {
   send(queueName, content) {
     console.log(`Sending message to queue ${queueName}`);
     super.send(
-      SolclientFactory.createDurableQueueDestination(queueName),
+      QueueConsumer.getDestination(queueName),
       content,
     );
+  }
+
+  static getDestination(queueName) {
+    return SolclientFactory.createDurableQueueDestination(queueName);
   }
 };

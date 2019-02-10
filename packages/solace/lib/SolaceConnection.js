@@ -30,35 +30,35 @@ module.exports = class SolaceConnection extends EventEmitter {
       throw new Error('Already connected');
     }
 
-    this.session = solace.SolclientFactory.createSession(options);
+    return new Promise((resolve, reject) => {
+      this.session = solace.SolclientFactory.createSession(options);
 
-    this.session.on(SessionEvent.UP_NOTICE, () => this.startConsume());
-    this.session.on(SessionEvent.CONNECT_FAILED_ERROR, (e) => {
-      this.emit('error', e);
-    });
-    this.session.on(SessionEvent.DISCONNECTED, () => {
-      this.consuming = false;
-      console.log('Disconnected');
-    });
-    this.session.on(SessionEvent.SUBSCRIPTION_ERROR, (e) => {
-      this.emit('error', e);
-    });
-    this.session.on(SessionEvent.SUBSCRIPTION_OK, () => {
-      if (this.subscribed) {
-        this.subscribed = false;
-        console.log('Unsubscribed');
-      } else {
-        this.subscribed = true;
-        console.log('Subscribed');
-      }
-    });
+      this.session.on(SessionEvent.UP_NOTICE, () => resolve());
+      this.session.on(SessionEvent.CONNECT_FAILED_ERROR, e => reject(e));
+      this.session.on(SessionEvent.DISCONNECTED, () => {
+        this.consuming = false;
+        console.log('Disconnected');
+      });
+      this.session.on(SessionEvent.SUBSCRIPTION_ERROR, (e) => {
+        this.emit('error', e);
+      });
+      this.session.on(SessionEvent.SUBSCRIPTION_OK, () => {
+        if (this.subscribed) {
+          this.subscribed = false;
+          console.log('Unsubscribed');
+        } else {
+          this.subscribed = true;
+          console.log('Subscribed');
+        }
+      });
 
-    this.session.on(SessionEvent.MESSAGE, (message) => {
-      const content = JSON.parse(message.getSdtContainer().getValue());
-      this.emit(content.t, content);
-    });
+      this.session.on(SessionEvent.MESSAGE, (message) => {
+        const content = JSON.parse(message.getSdtContainer().getValue());
+        this.emit(content.t, content);
+      });
 
-    this.session.connect();
+      this.session.connect();
+    });
   }
 
   /**

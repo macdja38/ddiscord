@@ -50,12 +50,14 @@ function startHeartbeat(id, interval) {
     fetch(`http://10.0.22.102:3000/id/${id}/heartbeat`, options)
       .then(async (response) => {
         if (response.ok !== true) {
-          console.log('heartbeat failure', response.statusText);;
+          console.log('heartbeat failure', response.statusText);
           throw new Error(response.statusText);
         }
         console.log('heartbeat success');
         retries = 0;
-        return response.json();
+        const json = await response.json();
+        console.log(json);
+        return json;
       })
       .catch((error) => {
         if (retries >= 3) {

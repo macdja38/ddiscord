@@ -41,10 +41,12 @@ if (Number.isNaN(MAX_SHARDS)) {
   );
 }
 
+console.log('Environment validation passed');
+
 shard({
   token: TOKEN,
-  startShardID: START_SHARD,
-  endShardID: END_SHARD,
+  firstShardID: START_SHARD,
+  lastShardID: END_SHARD,
   maxShards: MAX_SHARDS,
 }, {
   url: SOULLESS_URL,

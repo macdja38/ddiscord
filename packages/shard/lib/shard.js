@@ -11,6 +11,7 @@ async function shard(
     url, vpnName, userName, password, queueName,
   },
 ) {
+  console.log('shard init started');
   const queueConsumer = new QueueConsumer();
   await queueConsumer.connect({
     url,
@@ -42,6 +43,7 @@ async function shard(
     );
   });
 
+  console.log('bot connection started');
   bot.connect(); // Get the bot to connect to Discord
 }
 

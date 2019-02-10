@@ -23,7 +23,6 @@ async function worker(redisHost, redisPort, {
   const con = new DirectConnector();
   con.on('send', (object) => {
     delete object.message;
-    console.log(`${object.t}: ${object.d.id}`);
     const message = createMessage(JSON.stringify(object));
     // message.setTimeToLive(60 * 1000);
     message.setDestination(
@@ -34,7 +33,10 @@ async function worker(redisHost, redisPort, {
   });
 
   // on solace queue recieve event
-  queueConsumer.on('*', m => con.receive(m));
+  queueConsumer.on('*', (m) => {
+    console.log(`${m.t}: ${m.d.id}`);
+    con.receive(m);
+  });
 
   // start consuming the queue of messages
   await queueConsumer.consume(queueName);

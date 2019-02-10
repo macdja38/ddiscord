@@ -22,4 +22,8 @@ if (Number.isNaN(MAX_SHARDS)) {
   );
 }
 
-shard(TOKEN, START_SHARD, END_SHARD, MAX_SHARDS);
+shard(TOKEN, START_SHARD, END_SHARD, MAX_SHARDS)
+  .catch((e) => {
+    console.error(e);
+    process.exit(1);
+  });

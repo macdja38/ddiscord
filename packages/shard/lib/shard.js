@@ -1,6 +1,17 @@
 const Eris = require('eris');
+const { init, QueueConsumer } = require('solace');
 
-function shard(token, firstShardID, lastShardID, maxShards) {
+init();
+
+async function shard(token, firstShardID, lastShardID, maxShards) {
+  const queueConsumer = new QueueConsumer();
+  await queueConsumer.connect({
+    url: process.env.SOULLESS_URL,
+    vpnName: process.env.SOULLESS_VPN_NAME,
+    userName: process.env.SOULLESS_USERNAME,
+    password: process.env.SOULLESS_PASSWORD,
+  });
+
   const bot = new Eris(token, {
     firstShardID,
     lastShardID,
@@ -12,8 +23,12 @@ function shard(token, firstShardID, lastShardID, maxShards) {
   });
 
   bot.on('rawWS', (packet, shardId) => {
-    console.log(shardId, JSON.stringify(packet, null, 2));
-    // send to solice here
+    console.log(`shard ${shardId}: Received message of type ${packet.t}`);
+
+    queueConsumer.send(
+      process.env.SOULLESS_QUEUE_NAME,
+      JSON.stringify({ ...packet, shardId }),
+    );
   });
 
   bot.connect(); // Get the bot to connect to Discord

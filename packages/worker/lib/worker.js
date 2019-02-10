@@ -1,8 +1,16 @@
 const RainCache = require('raincache');
+const { init: initSolace, QueueConsumer } = require('solace');
 
-function worker(redisHost, redisPort, {
+initSolace();
+
+async function worker(redisHost, redisPort, {
   url, vpnName, userName, password, queueName,
 }) {
+  const queueConsumer = new QueueConsumer();
+  await queueConsumer.connect({
+    url, vpnName, userName, password,
+  });
+
   // Load the Amqp Connector
   const { DirectConnector } = RainCache.Connectors;
   // Load the redis storage engine class
@@ -14,7 +22,10 @@ function worker(redisHost, redisPort, {
   });
 
   // on solace queue recieve event
-  // con.recieve(object)
+  queueConsumer.on('*', m => con.receive(m));
+
+  // start consuming the queue of messages
+  await queueConsumer.consume(queueName);
 
   // Create a new uninitialized RainCache instance, set redis as the default storage engine,
   // disable debugging mode and pass an inbound and

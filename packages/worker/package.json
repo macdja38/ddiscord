@@ -29,6 +29,7 @@
     "url": "https://github.com/macdja38/ddiscord/issues"
   },
   "dependencies": {
-    "raincache": "^0.4.1"
+    "raincache": "^0.4.1",
+    "solace": "^0.0.0"
   }
 }

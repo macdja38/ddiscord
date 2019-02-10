@@ -37,4 +37,7 @@ worker(REDIS_HOST, REDIS_PORT, {
   userName: SOULLESS_USERNAME,
   password: SOULLESS_PASSWORD,
   queueName: SOULLESS_QUEUE_NAME,
+}).catch((e) => {
+  console.error(e);
+  process.exit(1);
 });

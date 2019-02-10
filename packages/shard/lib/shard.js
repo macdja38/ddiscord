@@ -8,7 +8,7 @@ async function shard(
     token, firstShardID, lastShardID, maxShards,
   },
   {
-    url, vpnName, userName, password,
+    url, vpnName, userName, password, queueName,
   },
 ) {
   const queueConsumer = new QueueConsumer();
@@ -33,7 +33,7 @@ async function shard(
     console.log(`shard ${shardId}: Received message of type ${packet.t}`);
 
     queueConsumer.send(
-      process.env.SOULLESS_QUEUE_NAME,
+      queueName,
       JSON.stringify({ ...packet, shardId }),
     );
   });

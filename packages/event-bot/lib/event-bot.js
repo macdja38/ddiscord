@@ -12,14 +12,13 @@ async function eventBot({ token, topicName, ...options }) {
 
   client.on('MESSAGE_CREATE', async ({ d: { id, content, channel_id: channelId }, shardId }) => {
     try {
-      if (state.ids.has(id)) {
-        await client.channel.createMessage('233647266957623297', id);
-        return;
-      }
-      state.ids.add(id);
       if (!content.startsWith('?event-bot')) {
         return;
       }
+      if (state.ids.has(id)) {
+        return;
+      }
+      state.ids.add(id);
       console.log(`Handling command: ${content}`);
       const command = content.substring('?event-bot '.length);
 

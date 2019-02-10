@@ -1,4 +1,17 @@
+const fetch = require('node-fetch');
 const shard = require('./lib/shard');
+
+function getShardInstructions() {
+  const options = { method: 'GET' };
+
+  fetch('http://10.0.22.102:3000/id/', options)
+    .then(async (response) => {
+      if (response.ok !== true) {
+        throw new Error(response.statusText);
+      }
+      return response.json();
+    });
+}
 
 const {
   TOKEN,
@@ -8,10 +21,6 @@ const {
   SOULLESS_PASSWORD,
   SOULLESS_QUEUE_NAME,
 } = process.env;
-
-const START_SHARD = parseInt(process.env.START_SHARD, 10);
-const END_SHARD = parseInt(process.env.END_SHARD, 10);
-const MAX_SHARDS = parseInt(process.env.MAX_SHARDS, 10);
 
 const requiredExistences = {
   TOKEN,
@@ -28,33 +37,48 @@ Object.entries(requiredExistences).forEach(([key, value]) => {
   }
 });
 
-if (Number.isNaN(START_SHARD) || Number.isNaN(END_SHARD)) {
-  throw new Error(
-    `Please supply a valid START_SHARD and END_SHARD, we got ${START_SHARD} and ${END_SHARD}`,
-  );
-}
-
-
-if (Number.isNaN(MAX_SHARDS)) {
-  throw new Error(
-    `Please supply a valid MAX_SHARDS, we got ${MAX_SHARDS}`,
-  );
-}
-
 console.log('Environment validation passed');
 
-shard({
-  token: TOKEN,
-  firstShardID: START_SHARD,
-  lastShardID: END_SHARD,
-  maxShards: MAX_SHARDS,
-}, {
-  url: SOULLESS_URL,
-  vpnName: SOULLESS_VPN_NAME,
-  userName: SOULLESS_USERNAME,
-  password: SOULLESS_PASSWORD,
-  queueName: SOULLESS_QUEUE_NAME,
-})
+function startHeartbeat(id, interval) {
+  let retries = 0;
+
+  setInterval(() => {
+    const options = { method: 'PATCH' };
+
+    fetch(`http://10.0.22.102:3000/id/${id}/heartbeat`, options)
+      .then(async (response) => {
+        if (response.ok !== true) {
+          throw new Error(response.statusText);
+        }
+        retries = 0;
+        return response.json();
+      })
+      .catch((error) => {
+        if (retries >= 3) {
+          console.error(error);
+          process.exit(2);
+        }
+      });
+  }, interval);
+}
+
+getShardInstructions()
+  .then((shardInstructions) => {
+    startHeartbeat(shardInstructions.firstShardID, shardInstructions.heartbeat);
+
+    return shard({
+      token: TOKEN,
+      firstShardID: shardInstructions.shardID,
+      endShardID: shardInstructions.shardID,
+      maxShards: shardInstructions.shardTotal,
+    }, {
+      url: SOULLESS_URL,
+      vpnName: SOULLESS_VPN_NAME,
+      userName: SOULLESS_USERNAME,
+      password: SOULLESS_PASSWORD,
+      queueName: SOULLESS_QUEUE_NAME,
+    });
+  })
   .catch((e) => {
     console.error(e);
     process.exit(1);

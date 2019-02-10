@@ -15,7 +15,7 @@ async function eventBot({ token, topicName, ...options }) {
       return;
     }
     console.log(`Handling command: ${content}`);
-    const command = content.substring(0, '?event-bot '.length);
+    const command = content.substring('?event-bot '.length);
 
     switch (command) {
       case 'total':

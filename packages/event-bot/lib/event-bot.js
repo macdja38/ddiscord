@@ -7,7 +7,7 @@ async function eventBot({ token, topicName, ...options }) {
   const client = new Client(token);
 
   client.on('*', () => {
-    state.events += 1;
+    state.events += 1; //
   });
 
   client.on('MESSAGE_CREATE', async ({ d: { content, channel_id: channelId, timestamp }, shardId }) => {

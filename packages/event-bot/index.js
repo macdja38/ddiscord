@@ -6,7 +6,7 @@ const {
   SOULLESS_VPN_NAME,
   SOULLESS_USERNAME,
   SOULLESS_PASSWORD,
-  SOULLESS_QUEUE_NAME,
+  SOULLESS_TOPIC_NAME,
 } = process.env;
 
 const requiredExistences = {
@@ -15,7 +15,7 @@ const requiredExistences = {
   SOULLESS_VPN_NAME,
   SOULLESS_USERNAME,
   SOULLESS_PASSWORD,
-  SOULLESS_QUEUE_NAME,
+  SOULLESS_TOPIC_NAME,
 };
 
 Object.entries(requiredExistences).forEach(([key, value]) => {
@@ -32,7 +32,7 @@ eventBot({
   vpnName: SOULLESS_VPN_NAME,
   userName: SOULLESS_USERNAME,
   password: SOULLESS_PASSWORD,
-  queueName: SOULLESS_QUEUE_NAME,
+  topicName: SOULLESS_TOPIC_NAME,
 })
   .catch((e) => {
     console.error(e);

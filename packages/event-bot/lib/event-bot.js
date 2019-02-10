@@ -1,6 +1,6 @@
 const Client = require('discord-client');
 
-async function eventBot({ token, ...options }) {
+async function eventBot({ token, topicName, ...options }) {
   const client = new Client(token);
 
   client.on('*', (m) => {
@@ -11,6 +11,7 @@ async function eventBot({ token, ...options }) {
   });
 
   await client.connect(options);
+  client.subscribe(topicName);
 }
 
 module.exports = eventBot;

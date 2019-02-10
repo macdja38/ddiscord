@@ -76,7 +76,6 @@ module.exports = class QueueConsumer extends SolaceConnection {
   }
 
   send(queueName, content) {
-    console.log(`Sending message to queue ${queueName}`);
     super.send(
       QueueConsumer.getDestination(queueName),
       content,

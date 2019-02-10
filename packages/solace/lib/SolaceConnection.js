@@ -15,11 +15,15 @@ module.exports = class SolaceConnection extends EventEmitter {
   }
 
   /**
+   * Connect to the Solace service
+   *
    * @param {Object} options
    * @param {string} options.url
    * @param {string} options.vpnName
    * @param {string} options.userName
    * @param {string} options.pass
+   *
+   * @returns {Promise<void>}
    */
   connect(options) {
     if (this.session !== null) {
@@ -57,6 +61,12 @@ module.exports = class SolaceConnection extends EventEmitter {
     this.session.connect();
   }
 
+  /**
+   * Reply to a message from the queue
+   *
+   * @param {solace.Message} message The message to reply to
+   * @param {string} content The content to send
+   */
   reply(message, content) {
     if (this.session === null) {
       throw new Error('Session not started');
@@ -65,6 +75,15 @@ module.exports = class SolaceConnection extends EventEmitter {
     this.session.sendReply(message, createMessage(content));
   }
 
+  /**
+   * Send a message
+   *
+   * @param {solace.Destination} destination The solace destination object
+   * representing the target topic/queue
+   * @param {string} content The content to send
+   * @param {Number} [deliveryMode] The delivery mode to send with from
+   * solace.MessageDeliveryModeType
+   */
   send(destination, content, deliveryMode = MessageDeliveryModeType.DIRECT) {
     if (this.session === null) {
       throw new Error('Session not started');

@@ -15,6 +15,12 @@ module.exports = class QueueConsumer extends SolaceConnection {
     this.consumers = new Map();
   }
 
+  /**
+   * Start listening for and consuming messages from a queue
+   *
+   * @param {string} queueName The name of the queue to consume events from
+   * @returns {Promise<void>}
+   */
   consume(queueName) {
     if (this.session === null) {
       throw new Error('Session not started');

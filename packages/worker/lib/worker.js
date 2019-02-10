@@ -23,7 +23,7 @@ async function worker(redisHost, redisPort, {
     message.setTimeToLive(60 * 1000);
     message.setDestination(QueueConsumer.getDestination(queueNameApplication));
     message.setDeliveryMode(QueueConsumer.solace.MessageDeliveryModeType.PERSISTENT);
-    message.setDeliverToOne(false);
+    // message.setDeliverToOne(false);
     queueConsumer.session.send(message);
   });
 

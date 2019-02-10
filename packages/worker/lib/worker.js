@@ -22,6 +22,9 @@ async function worker(redisHost, redisPort, {
   // Use the default options and create a new connector which isn't connected yet
   const con = new DirectConnector();
   con.on('send', (object) => {
+    if (object.t !== 'PRESENCE_UPDATE') {
+      console.log(`${object.t}: ${object.d && object.d.id}`);
+    }
     delete object.message;
     const message = createMessage(JSON.stringify(object));
     // message.setTimeToLive(60 * 1000);
@@ -33,12 +36,7 @@ async function worker(redisHost, redisPort, {
   });
 
   // on solace queue recieve event
-  queueConsumer.on('*', (m) => {
-    if (m.t !== 'PRESENCE_UPDATE') {
-      console.log(`${m.t}: ${m.d.id}`);
-    }
-    con.receive(m);
-  });
+  queueConsumer.on('*', m => con.receive(m));
 
   // start consuming the queue of messages
   await queueConsumer.consume(queueName);

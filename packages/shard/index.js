@@ -69,7 +69,7 @@ getShardInstructions()
     return shard({
       token: TOKEN,
       firstShardID: shardInstructions.shardID,
-      endShardID: shardInstructions.shardID,
+      lastShardID: shardInstructions.shardID,
       maxShards: shardInstructions.shardTotal,
     }, {
       url: SOULLESS_URL,

@@ -62,6 +62,7 @@ module.exports = class QueueConsumer extends SolaceConnection {
   }
 
   send(topic, content) {
+    console.log(`Sending message to topic ${topic}`);
     super.send(
       SolclientFactory.createTopicDestination(topic),
       content,

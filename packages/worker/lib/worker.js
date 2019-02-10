@@ -1,10 +1,14 @@
 const RainCache = require('raincache');
-const { init: initSolace, createMessage, QueueConsumer } = require('solace');
+const {
+  init: initSolace,
+  createMessage,
+  QueueConsumer,
+} = require('solace');
 
 initSolace();
 
 async function worker(redisHost, redisPort, {
-  url, vpnName, userName, password, queueName, queueNameApplication,
+  url, vpnName, userName, password, queueName, topicNameApplication,
 }) {
   const queueConsumer = new QueueConsumer();
   await queueConsumer.connect({
@@ -22,7 +26,9 @@ async function worker(redisHost, redisPort, {
     console.log(object);
     const message = createMessage(JSON.stringify(object));
     message.setTimeToLive(60 * 1000);
-    message.setDestination(QueueConsumer.getDestination(queueNameApplication));
+    message.setDestination(
+      QueueConsumer.solace.SolclientFactory.createTopicDestination(topicNameApplication)
+    );
     message.setDeliveryMode(QueueConsumer.solace.MessageDeliveryModeType.PERSISTENT);
     queueConsumer.session.send(message);
   });

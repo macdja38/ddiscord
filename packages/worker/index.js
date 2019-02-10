@@ -8,7 +8,7 @@ const {
   SOULLESS_USERNAME,
   SOULLESS_PASSWORD,
   SOULLESS_QUEUE_NAME,
-  SOULLESS_QUEUE_NAME_APPLICATION,
+  SOULLESS_TOPIC_NAME_APPLICATION,
 } = process.env;
 
 const requiredExistences = {
@@ -18,7 +18,7 @@ const requiredExistences = {
   SOULLESS_USERNAME,
   SOULLESS_PASSWORD,
   SOULLESS_QUEUE_NAME,
-  SOULLESS_QUEUE_NAME_APPLICATION,
+  SOULLESS_TOPIC_NAME_APPLICATION,
 };
 
 const REDIS_PORT = parseInt(process.env.REDIS_PORT, 10);
@@ -39,7 +39,7 @@ worker(REDIS_HOST, REDIS_PORT, {
   userName: SOULLESS_USERNAME,
   password: SOULLESS_PASSWORD,
   queueName: SOULLESS_QUEUE_NAME,
-  queueNameApplication: SOULLESS_QUEUE_NAME_APPLICATION,
+  topicNameApplication: SOULLESS_TOPIC_NAME_APPLICATION,
 }).catch((e) => {
   console.error(e);
   process.exit(1);

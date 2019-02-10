@@ -34,7 +34,9 @@ async function worker(redisHost, redisPort, {
 
   // on solace queue recieve event
   queueConsumer.on('*', (m) => {
-    console.log(`${m.t}: ${m.d.id}`);
+    if (m.t !== 'PRESENCE_UPDATE') {
+      console.log(`${m.t}: ${m.d.id}`);
+    }
     con.receive(m);
   });
 

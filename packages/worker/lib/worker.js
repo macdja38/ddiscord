@@ -22,7 +22,7 @@ async function worker(redisHost, redisPort, {
   // Use the default options and create a new connector which isn't connected yet
   const con = new DirectConnector();
   con.on('send', (object) => {
-    if (object.t !== 'PRESENCE_UPDATE') {
+    if (object.t !== 'PRESENCE_UPDATE') { //
       console.log(`${object.t}: ${object.d && object.d.id}`);
     }
     delete object.message;

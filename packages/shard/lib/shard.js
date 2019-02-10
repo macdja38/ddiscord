@@ -29,6 +29,10 @@ async function shard(
     console.log('Ready!'); // Log 'Ready!'
   });
 
+  bot.on('error', (error) => {
+    console.error(error);
+  });
+
   bot.on('rawWS', (packet, shardId) => {
     console.log(`shard ${shardId}: Received message of type ${packet.t}`);
 

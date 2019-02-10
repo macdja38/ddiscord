@@ -21,7 +21,7 @@ async function worker(redisHost, redisPort, {
     delete object.message;
     console.log(object);
     const message = createMessage(JSON.stringify(object));
-    // message.setTimeToLive(60 * 1000);
+    message.setGMExpiration(Date.now() + 60 * 1000);
     message.setDestination(QueueConsumer.getDestination(queueNameApplication));
     message.setDeliveryMode(QueueConsumer.solace.MessageDeliveryModeType.DIRECT);
     queueConsumer.session.send(message);

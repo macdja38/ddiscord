@@ -1,10 +1,10 @@
 FROM node:11
 
 USER node
-RUN mkdir -p /home/node/packages/shard
-WORKDIR /home/node/packages/shard
-ADD packages/shard/package-lock.json /home/node/packages/shard
-ADD packages/shard/package.json /home/node/packages/shard
+RUN mkdir -p /home/node/packages/worker
+WORKDIR /home/node/packages/worker
+ADD packages/worker/package-lock.json /home/node/packages/worker
+ADD packages/worker/package.json /home/node/packages/worker
 
 ADD packages/ /home/node/packages/
 ADD lerna.json /home/node/

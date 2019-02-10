@@ -4,7 +4,7 @@ const shard = require('./lib/shard');
 function getShardInstructions() {
   const options = { method: 'GET' };
 
-  fetch('http://10.0.22.102:3000/id/', options)
+  return fetch('http://10.0.22.102:3000/id/', options)
     .then(async (response) => {
       if (response.ok !== true) {
         throw new Error(response.statusText);

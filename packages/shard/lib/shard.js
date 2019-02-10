@@ -35,7 +35,9 @@ async function shard(
   });
 
   bot.on('rawWS', (packet, shardId) => {
-    console.log(`shard ${shardId}: Received message of type ${packet.t}`);
+    if (packet.t !== 'PRESENCE_UPDATE') {
+      console.log(`shard ${shardId}: Received message of type ${packet.t}`);
+    }
 
     queueConsumer.send(
       queueName,

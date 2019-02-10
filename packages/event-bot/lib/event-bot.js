@@ -10,7 +10,7 @@ async function eventBot({ token, topicName, ...options }) {
     state.events += 1;
   });
 
-  client.on('MESSAGE_CREATE', async ({ d: { content, channel_id: channelId }, shardId }) => {
+  client.on('MESSAGE_CREATE', async ({ d: { content, channel_id: channelId, timestamp }, shardId }) => {
     try {
       if (!content.startsWith('?event-bot')) {
         return;
@@ -28,20 +28,9 @@ async function eventBot({ token, topicName, ...options }) {
           break;
         }
         case 'ping': {
-          const time = Date.now();
-          const { id } = await client.channel.createMessage(channelId, 'Testing ping...');
-          await new Promise((resolve) => {
-            function handler({ d: { id: receivedId } }) {
-              if (id !== receivedId) {
-                return;
-              }
-              client.removeListener('MESSAGE_CREATE', handler);
-              resolve();
-            }
-
-            client.on('MESSAGE_CREATE', handler);
-          });
-          await client.channel.editMessage(channelId, id, `Ping is ${Date.now() - time}ms`);
+          const messageTime = new Date(timestamp);
+          const difference = new Date() - messageTime;
+          await client.channel.createMessage(channelId, `Ping is ${difference}ms`);
           break;
         }
         default:

@@ -6,7 +6,7 @@ async function eventBot({ token, topicName, ...options }) {
   client.on('*', (m) => {
     client.channel.createMessage(
       '233647266957623297',
-      `\`\`\`\n${JSON.stringify(m).slice(0, 1500)}\`\`\``,
+      `\`\`\`json\n${JSON.stringify(m, null, 2).slice(0, 1500)}\`\`\``,
     );
   });
 

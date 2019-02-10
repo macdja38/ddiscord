@@ -18,6 +18,7 @@ async function worker(redisHost, redisPort, {
   // Use the default options and create a new connector which isn't connected yet
   const con = new DirectConnector();
   con.on('send', (object) => {
+    delete object.message;
     console.log(object);
     const message = createMessage(JSON.stringify(object));
     message.setTimeToLive(60 * 1000);

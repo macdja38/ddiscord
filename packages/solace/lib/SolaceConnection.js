@@ -21,7 +21,7 @@ module.exports = class SolaceConnection extends EventEmitter {
    * @param {string} options.url
    * @param {string} options.vpnName
    * @param {string} options.userName
-   * @param {string} options.pass
+   * @param {string} options.password
    *
    * @returns {Promise<void>}
    */

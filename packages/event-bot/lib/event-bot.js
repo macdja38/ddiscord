@@ -10,7 +10,7 @@ async function eventBot({ token, topicName, ...options }) {
     state.events += 1;
   });
 
-  client.on('MESSAGE_CREATE', ({ d: { content, channel_id: channelId } }) => {
+  client.on('MESSAGE_CREATE', async ({ d: { content, channel_id: channelId } }) => {
     if (!content.startsWith('?event-bot')) {
       return;
     }
@@ -18,11 +18,11 @@ async function eventBot({ token, topicName, ...options }) {
 
     switch (command) {
       case 'total':
-        client.channel.createMessage(channelId, code(`Total events to date: ${state.events}`));
+        await client.channel.createMessage(channelId, code(`Total events to date: ${state.events}`));
         break;
       case 'per second': {
         const average = state.events / (Date.now() - state.start) * 1000;
-        client.channel.createMessage(channelId, code(`Average events per second: ${average}`));
+        await client.channel.createMessage(channelId, code(`Average events per second: ${average}`));
         break;
       }
       default:

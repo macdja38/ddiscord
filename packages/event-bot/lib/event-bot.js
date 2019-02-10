@@ -14,6 +14,7 @@ async function eventBot({ token, topicName, ...options }) {
     if (!content.startsWith('?event-bot')) {
       return;
     }
+    console.log(`Handling command: ${content}`);
     const command = content.substring(0, '?event-bot '.length);
 
     switch (command) {
@@ -26,6 +27,7 @@ async function eventBot({ token, topicName, ...options }) {
         break;
       }
       default:
+        console.log('did not match any command');
         break;
     }
   });

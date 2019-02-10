@@ -23,7 +23,7 @@ async function worker(redisHost, redisPort, {
   const con = new DirectConnector();
   con.on('send', (object) => {
     delete object.message;
-    console.log(object);
+    console.log(`${object.t}: ${object.d.id}`);
     const message = createMessage(JSON.stringify(object));
     // message.setTimeToLive(60 * 1000);
     message.setDestination(

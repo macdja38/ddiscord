@@ -14,15 +14,15 @@ module.exports = class QueueConsumer extends SolaceConnection {
   }
 
   connect(...args) {
-    super.connect(...args);
-
-    this.session.on(SessionEvent.MESSAGE, (message) => {
-      const content = JSON.parse(message.getSdtContainer().getValue());
-      const topic = message.getDestination().getName();
-      content.topicName = topic;
-      content.message = message;
-      this.emit(content.t, content);
-      this.emit('*', content);
+    return super.connect(...args).then(() => {
+      this.session.on(SessionEvent.MESSAGE, (message) => {
+        const content = JSON.parse(message.getSdtContainer().getValue());
+        const topic = message.getDestination().getName();
+        content.topicName = topic;
+        content.message = message;
+        this.emit(content.t, content);
+        this.emit('*', content);
+      });
     });
   }
 

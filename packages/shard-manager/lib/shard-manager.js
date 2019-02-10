@@ -92,6 +92,7 @@ function shardManager(startID, endID, shardTotal) {
   app.patch('/id/:id/heartbeat', (req, res) => {
     const { id } = req.params;
     const index = calculateIndex(id);
+    console.log(`got heartbeat from ${id}, calculated index ${index}`);
 
     shards[index] = getRefreshedShard(shards[index]);
 

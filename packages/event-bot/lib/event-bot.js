@@ -29,10 +29,6 @@ async function eventBot({ token, topicName, ...options }) {
         }
         case 'ping': {
           const time = Date.now();
-          // createMessage
-          // take ID of message
-          // wait for message from gateway
-          // subtract times
           const { id } = await client.channel.createMessage(channelId, 'Testing ping...');
           await new Promise((resolve) => {
             function handler({ d: { id: receivedId } }) {

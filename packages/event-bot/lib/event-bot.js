@@ -2,7 +2,7 @@ const Client = require('discord-client');
 
 const code = (content, type = '') => `\`\`\`${type}\n${content}\`\`\``;
 
-const state = { events: 0, start: Date.now() };
+const state = { events: 0, start: Date.now(), ids: new Set() };
 async function eventBot({ token, topicName, ...options }) {
   const client = new Client(token);
 
@@ -10,7 +10,12 @@ async function eventBot({ token, topicName, ...options }) {
     state.events += 1;
   });
 
-  client.on('MESSAGE_CREATE', async ({ d: { content, channel_id: channelId }, shardId }) => {
+  client.on('MESSAGE_CREATE', async ({ d: { id, content, channel_id: channelId }, shardId }) => {
+    if (state.ids.has(id)) {
+      await client.channel.createMessage('233647266957623297', id);
+      return;
+    }
+    state.ids.add(id);
     if (!content.startsWith('?event-bot')) {
       return;
     }

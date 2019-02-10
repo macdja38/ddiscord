@@ -21,7 +21,7 @@ module.exports = class QueueConsumer extends SolaceConnection {
         content.topicName = topic;
         content.message = message;
         this.emit(content.t, content);
-        this.emit('*', content);
+        // this.emit('*', content);
       });
     });
   }
